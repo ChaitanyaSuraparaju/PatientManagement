@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 using PatientManagement.Data;
 using PatientManagement.Repository;
 
@@ -16,10 +17,18 @@ builder.Services.AddDbContext<PatientContext>(options =>
 
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 
-builder.Services.AddAutoMapper(typeof(Program)); 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Patient Management API",
+        Version = "v1",
+    });
+});
 
 var app = builder.Build();
 

@@ -14,5 +14,6 @@ namespace PatientManagement.Repository
         Task UpdatePatientPatchAsync(int PatientId, JsonPatchDocument<PatientModel> patientModelPatch);
 
         Task DeletePatientAsync(int patientId);
+        Task<bool> PatientExistsByEmailAsync(string email);
     }
 }

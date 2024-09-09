@@ -41,14 +41,16 @@ namespace PatientManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPatient([FromBody] PatientModel patientModel)
         {
-            try
+            bool isDuplicate = await _patientRepository.PatientExistsByEmailAsync(patientModel.Email);
+
+            if (isDuplicate)
+            {
+                return BadRequest("Patient with the same email already exists.");
+            }
+            else
             {
                 var id = await _patientRepository.AddPatientAsync(patientModel);
                 return CreatedAtAction(nameof(GetPatientById), new { id = id, controller = "patient" }, id);
-            }
-            catch (InvalidOperationException exception)
-            {
-                return BadRequest(exception.Message);
             }
         }
 

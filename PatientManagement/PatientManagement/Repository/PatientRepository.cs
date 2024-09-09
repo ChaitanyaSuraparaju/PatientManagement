@@ -29,6 +29,11 @@ namespace PatientManagement.Repository
             return _mapper.Map<PatientModel>(patientEntity);
         }
 
+        public async Task<bool> PatientExistsByEmailAsync(string email)
+        {
+            return await _context.Patients.AnyAsync(value => value.Email == email);
+        }
+
         public async Task<int> AddPatientAsync(PatientModel patientModel)
         {
             var newPatient = _mapper.Map<Patient>(patientModel);
