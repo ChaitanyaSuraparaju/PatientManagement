@@ -41,6 +41,10 @@ namespace PatientManagement.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPatient([FromBody] PatientModel patientModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             bool isDuplicate = await _patientRepository.PatientExistsByEmailAsync(patientModel.Email);
 
             if (isDuplicate)
